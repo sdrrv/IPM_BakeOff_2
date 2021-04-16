@@ -153,7 +153,7 @@ function mousePressed() {
 }
 
 // Draw target on-screen
-function drawTarget(i) {
+function drawTarget(i) { // IMPORTANT_-------------------------------------------------------!!!
   // Get the location and size for target (i)
   let target = getTargetBounds(i);
 
@@ -161,8 +161,8 @@ function drawTarget(i) {
   if (trials[current_trial] === i) {
     // Highlights the target the user should be trying to select
     // with a white border
-    stroke(color(220, 220, 220));
-    strokeWeight(2);
+    stroke(color(220, 0, 0));
+    strokeWeight(5);
 
     // Remember you are allowed to access targets (i-1) and (i+1)
     // if this is the target the user should be trying to select
