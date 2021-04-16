@@ -7,7 +7,7 @@
 
 
 let ciclo = 0;
-
+let wsize = 0;
 
 // Database (CHANGE THESE!)
 const GROUP_NUMBER = 25;      // Add your group number here as an integer (e.g., 2, 3)
@@ -165,8 +165,13 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
   if (trials[current_trial] === i) {
     // Highlights the target the user should be trying to select
     // with a white border
-    stroke(color(220, 0, 0)); // Stroke Color !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    strokeWeight(Math.sin(ciclo++) * 8); // Stroke Wieght !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    if (ciclo === 6) {
+      ciclo = 0;
+      wsize++;
+    }
+    ciclo++;
+    stroke(color(127, 255, 0)); // Stroke Color !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    strokeWeight(Math.abs(Math.sin(wsize) * 5)); // Stroke Wieght !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // Remember you are allowed to access targets (i-1) and (i+1)
     // if this is the target the user should be trying to select
     //
@@ -175,8 +180,8 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
   }
   else if (trials[current_trial + 1] === i) { // NEXT BALLLLLLL!!!!!!!!!!!!!!!!!!!!
     stroke(color(0, 0, 220));
-    strokeWeight(3);
-    fill(color(120));
+    strokeWeight(0);
+    fill(color(0, 119, 179));
   }
   // Does not draw a border if this is not the target the user
   // should be trying to select
