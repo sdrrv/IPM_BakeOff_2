@@ -167,19 +167,19 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
     // Remember you are allowed to access targets (i-1) and (i+1)
     // if this is the target the user should be trying to select
     //
-    fill(color(0, 100, 0));
+    fill(color(50, 100, 0));
 
   }
   else if (trials[current_trial + 1] === i) { // NEXT BALLLLLLL!!!!!!!!!!!!!!!!!!!!
     stroke(color(0, 0, 220));
-    strokeWeight(2);
-    fill(color(0, 0, 50));
+    strokeWeight(3);
+    fill(color(120));
   }
   // Does not draw a border if this is not the target the user
   // should be trying to select
   else {
     noStroke();
-    fill(color(155, 155, 155));
+    fill(color(120));
   }
 
   circle(target.x, target.y, target.w);
