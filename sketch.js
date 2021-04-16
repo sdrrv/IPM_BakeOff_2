@@ -5,6 +5,10 @@
 
 // p5.js reference: https://p5js.org/reference/
 
+
+let ciclo = 0;
+
+
 // Database (CHANGE THESE!)
 const GROUP_NUMBER = 25;      // Add your group number here as an integer (e.g., 2, 3)
 const BAKE_OFF_DAY = false;  // Set to 'true' before sharing during the simulation and bake-off days
@@ -162,12 +166,11 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
     // Highlights the target the user should be trying to select
     // with a white border
     stroke(color(220, 0, 0)); // Stroke Color !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    strokeWeight(5); // Stroke Wieght !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+    strokeWeight(Math.sin(ciclo++) * 8); // Stroke Wieght !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // Remember you are allowed to access targets (i-1) and (i+1)
     // if this is the target the user should be trying to select
     //
-    fill(color(50, 100, 0));
+    fill(color(127, 255, 0));
 
   }
   else if (trials[current_trial + 1] === i) { // NEXT BALLLLLLL!!!!!!!!!!!!!!!!!!!!
