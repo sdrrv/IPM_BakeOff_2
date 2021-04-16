@@ -5,9 +5,10 @@
 
 // p5.js reference: https://p5js.org/reference/
 
-
+var audio = new Audio('sound1.wav');
 let ciclo = 0;
 let wsize = 0;
+
 
 // Database (CHANGE THESE!)
 const GROUP_NUMBER = 25;      // Add your group number here as an integer (e.g., 2, 3)
@@ -134,7 +135,10 @@ function mousePressed() {
 
     // Check to see if the mouse cursor is inside the target bounds,
     // increasing either the 'hits' or 'misses' counters
-    if (dist(target.x, target.y, mouseX, mouseY) < target.w / 2) hits++;
+    if (dist(target.x, target.y, mouseX, mouseY) < target.w / 2) {
+      hits++;
+      audio.play();
+    }
     else misses++;
 
     current_trial++;                 // Move on to the next trial/target
