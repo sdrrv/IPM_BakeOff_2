@@ -200,10 +200,15 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
   if (i === 15) {
     let last = getTargetBounds(trials[current_trial - 1]);
     let current = getTargetBounds(trials[current_trial]);
+    let next = getTargetBounds(trials[current_trial + 1]);
+    //---------------------Last to Current------------------------------
     let v0 = createVector(last.x, last.y);
     let v1 = createVector(current.x - last.x, current.y - last.y);
     drawArrow(v0, v1, color(250));
-
+    //-------------------------------------------------------------------
+    v0 = createVector(current.x, current.y);
+    v1 = createVector(next.x - current.x, next.y - current.y);
+    drawArrow(v0, v1, color(120, 120, 120, 60));
   }
 }
 function drawArrow(base, vec, Color) {
