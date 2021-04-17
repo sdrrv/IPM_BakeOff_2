@@ -197,13 +197,27 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
   }
 
   circle(target.x, target.y, target.w);
-  if (trials[current_trial - 1] === i) {
-    let last = target;
+  if (i === 15) {
+    let last = getTargetBounds(trials[current_trial - 1]);
     let current = getTargetBounds(trials[current_trial]);
-    stroke(color(250));
-    strokeWeight(2);
-    line(last.x, last.y, current.x, current.y);
+    let v0 = createVector(last.x, last.y);
+    let v1 = createVector(current.x - last.x, current.y - last.y);
+    drawArrow(v0, v1, color(250));
+
   }
+}
+function drawArrow(base, vec, Color) {
+  push();
+  stroke(Color);
+  strokeWeight(3);
+  fill(Color);
+  translate(base.x, base.y);
+  line(0, 0, vec.x, vec.y);
+  rotate(vec.heading());
+  let arrowSize = 10;
+  translate(vec.mag() - arrowSize, 0);
+  triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
+  pop();
 }
 
 // Returns the location and size of a given target
