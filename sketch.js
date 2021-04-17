@@ -187,6 +187,8 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
     strokeWeight(0);
     fill(color(0, 119, 179));
   }
+
+
   // Does not draw a border if this is not the target the user
   // should be trying to select
   else {
@@ -195,6 +197,13 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
   }
 
   circle(target.x, target.y, target.w);
+  if (trials[current_trial - 1] === i) {
+    let last = target;
+    let current = getTargetBounds(trials[current_trial]);
+    stroke(color(250));
+    strokeWeight(2);
+    line(last.x, last.y, current.x, current.y);
+  }
 }
 
 // Returns the location and size of a given target
