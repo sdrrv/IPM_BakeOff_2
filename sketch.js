@@ -5,7 +5,7 @@
 
 // p5.js reference: https://p5js.org/reference/
 
-var audio = new Audio('sound1.wav');
+var audio = new Audio('soft_notification-[AudioTrimmer.com].mp3');
 let ciclo = 0;
 let wsize = 0;
 
@@ -219,7 +219,7 @@ function drawArrow(base, vec, Color) {
   translate(base.x, base.y);
   line(0, 0, vec.x, vec.y);
   rotate(vec.heading());
-  let arrowSize = 10;
+  let arrowSize = 5;
   translate(vec.mag() - arrowSize, 0);
   triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
   pop();
