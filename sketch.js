@@ -185,7 +185,7 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
   else if (trials[current_trial + 1] === i) { // NEXT BALLLLLLL!!!!!!!!!!!!!!!!!!!!
     stroke(color(0, 0, 220));
     strokeWeight(0);
-    fill(color(0, 119, 179));
+    fill(color(250, 100, 250, 90));
   }
 
 
@@ -193,7 +193,7 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
   // should be trying to select
   else {
     noStroke();
-    fill(color(120));
+    fill(color(120, 120, 120, 80));
   }
 
   circle(target.x, target.y, target.w);
@@ -208,7 +208,7 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
     //-------------------------------------------------------------------
     v0 = createVector(current.x, current.y);
     v1 = createVector(next.x - current.x, next.y - current.y);
-    drawArrow(v0, v1, color(120, 120, 120, 60));
+    drawArrow(v0, v1, color(200, 100, 250, 70));
   }
 }
 function drawArrow(base, vec, Color) {
