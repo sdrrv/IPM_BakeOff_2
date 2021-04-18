@@ -140,6 +140,7 @@ function mousePressed() {
       hits++;
       audio.play();
     }
+
     else misses++;
 
     current_trial++;                 // Move on to the next trial/target
@@ -221,10 +222,51 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
     else {
       v0 = createVector(current.x, current.y);
       v1 = createVector(next.x - current.x, next.y - current.y);
-      drawArrow(v0, v1, color(200, 100, 250, 70));
+      //drawArrow(v0, v1, color(200, 100, 250, 70));
+      drawArrowV2(current, next, color(250));
     }
   }
 }
+
+function drawArrowV2(base, final, Color) {
+
+  let x0 = base.x;
+  let y0 = base.y;
+
+  let xf = final.x;
+  let yf = final.y;
+
+  if (x0 === xf) { // vertical
+    let point1 = {x: 0, y: 0};
+    let point2 = {x: 0, y: 0};
+
+    if (y0 > yf) {
+      point1.x = (x0 * (y0 - yf)) * 2;
+      point1.y = (yf / (y0 - yf)) / 2;
+      point2.x = point1.x;
+      point2.y = (y0 - yf + (y0 - point1.y) * 2)
+    }
+    else {
+
+    }
+    noFill();
+    strokeWeight(2);
+    stroke(Color);
+    curve(point1.x, point.y, x0, y0, xf, yf, point2.x, point2.y);
+  }
+
+
+  if (y0 === yf) { // horizontal
+
+  }
+  else { // Diagonal
+
+  }
+  curve();
+
+  noFill();
+}
+
 
 function drawArc(base, Color) {
   let x = base.x + 21;
