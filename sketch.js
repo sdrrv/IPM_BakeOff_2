@@ -55,6 +55,7 @@ function setup() {
 
 // Runs every frame and redraws the screen
 function draw() {
+
   if (draw_targets) {
     // The user is interacting with the 4x4 target grid
     background(color(0, 0, 0));        // sets background to black
@@ -202,15 +203,39 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
     let current = getTargetBounds(trials[current_trial]);
     let next = getTargetBounds(trials[current_trial + 1]);
     //---------------------Last to Current------------------------------
-    let v0 = createVector(last.x, last.y);
-    let v1 = createVector(current.x - last.x, current.y - last.y);
-    drawArrow(v0, v1, color(250));
+
+    //drawArc(createVector(current.x, current.y), color(250));
+    if (last.x === current.x && last.y === current.y) {
+      drawArc(createVector(current.x, current.y), color(250));
+    }
+    else {
+      let v0 = createVector(last.x, last.y);
+      let v1 = createVector(current.x - last.x, current.y - last.y);
+      drawArrow(v0, v1, color(250));
+    }
     //-------------------------------------------------------------------
-    v0 = createVector(current.x, current.y);
-    v1 = createVector(next.x - current.x, next.y - current.y);
-    drawArrow(v0, v1, color(200, 100, 250, 70));
+
+    if (next.x === current.x && next.y === current.y) {
+      drawArc(createVector(current.x, current.y), color(200, 100, 250, 70));
+    }
+    else {
+      v0 = createVector(current.x, current.y);
+      v1 = createVector(next.x - current.x, next.y - current.y);
+      drawArrow(v0, v1, color(200, 100, 250, 70));
+    }
   }
 }
+
+function drawArc(base, Color) {
+  let x = base.x + 21;
+  let y = base.y + 1;
+  noFill();
+  stroke(color(Color));
+  strokeWeight(3);
+  arc(x, y, 60, 40, -PI / 2, PI / 2);
+  triangle(x + 4, y + 17, x, y + 20, x + 4, y + 23);
+}
+
 function drawArrow(base, vec, Color) {
   push();
   stroke(Color);
