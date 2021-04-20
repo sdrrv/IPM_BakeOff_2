@@ -219,52 +219,28 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
     if (next.x === current.x && next.y === current.y) {
       drawArc(createVector(current.x, current.y), color(200, 100, 250, 70));
     }
+
+    else if (last.x === next.x && last.y === next.y) {
+
+      if (current.x === next.x) { // vertical 
+        v0 = createVector(current.x - current.w , current.y); 
+        v1 = createVector(next.x - (current.x - current.w), next.y - current.y);
+        drawArrow(v0, v1, color(200, 100, 250, 70));
+      }
+
+       else  { // horizontal e obliquo
+        v0 = createVector(current.x, current.y - current.w); // O duarte é gay e paneleiro!!!!!!
+        v1 = createVector(next.x - current.x, next.y - (current.y - current.w));
+        drawArrow(v0, v1, color(200, 100, 250, 70));
+      }
+    }
+
     else {
       v0 = createVector(current.x, current.y);
       v1 = createVector(next.x - current.x, next.y - current.y);
-      //drawArrow(v0, v1, color(200, 100, 250, 70));
-      drawArrowV2(current, next, color(250));
+      drawArrow(v0, v1, color(200, 100, 250, 70));
     }
   }
-}
-
-function drawArrowV2(base, final, Color) {
-
-  let x0 = base.x;
-  let y0 = base.y;
-
-  let xf = final.x;
-  let yf = final.y;
-
-  if (x0 === xf) { // vertical
-    let point1 = {x: 0, y: 0};
-    let point2 = {x: 0, y: 0};
-
-    if (y0 > yf) {
-      point1.x = (x0 * (y0 - yf)) * 2;
-      point1.y = (yf / (y0 - yf)) / 2;
-      point2.x = point1.x;
-      point2.y = (y0 - yf + (y0 - point1.y) * 2)
-    }
-    else {
-
-    }
-    noFill();
-    strokeWeight(2);
-    stroke(Color);
-    curve(point1.x, point.y, x0, y0, xf, yf, point2.x, point2.y);
-  }
-
-
-  if (y0 === yf) { // horizontal
-
-  }
-  else { // Diagonal
-
-  }
-  curve();
-
-  noFill();
 }
 
 
