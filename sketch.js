@@ -230,7 +230,7 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
       }
 
       else { // horizontal e obliquo
-        v0 = createVector(current.x, current.y - current.w / 2); // O duarte é gay e paneleiro!!!!!!
+        v0 = createVector(current.x, current.y - current.w / 2);
         v1 = createVector(next.x - current.x, next.y - (current.y - current.w / 2));
         drawArrow(v0, v1, color(200, 100, 250, 70));
       }
@@ -250,6 +250,8 @@ function produtoEscalar(v1, v2) {
 }
 
 function is_antiColenear(v1, v2) {
+  if (v1.x === v2.x && v1.y === v2.y)
+    return false;
   return (produtoEscalar(v1, v2) === Math.sqrt((v1.x) ** 2 + (v1.y ** 2)) * Math.sqrt((v2.x) ** 2 + (v2.y ** 2)) * (-1));
 }
 
@@ -261,7 +263,7 @@ function drawArc(base, Color) {
   let y = base.y + 1;
   noFill();
   stroke(color(Color));
-  strokeWeight(3);
+  strokeWeight(7);
   arc(x, y, 60, 40, -PI / 2, PI / 2);
   triangle(x + 4, y + 17, x, y + 20, x + 4, y + 23);
 }
@@ -269,12 +271,12 @@ function drawArc(base, Color) {
 function drawArrow(base, vec, Color) {
   push();
   stroke(Color);
-  strokeWeight(3);
+  strokeWeight(7);
   fill(Color);
   translate(base.x, base.y);
   line(0, 0, vec.x, vec.y);
   rotate(vec.heading());
-  let arrowSize = 5;
+  let arrowSize = 8;
   translate(vec.mag() - arrowSize, 0);
   triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
   pop();
