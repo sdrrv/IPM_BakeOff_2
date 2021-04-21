@@ -220,17 +220,18 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
       drawArc(createVector(current.x, current.y), color(200, 100, 250, 70));
     }
 
-    else if (last.x === next.x && last.y === next.y) {
+    else if (is_antiColenear(createVector(current.x - last.x, current.y - last.y), createVector(next.x - current.x, next.y - current.y))) {
+
 
       if (current.x === next.x) { // vertical 
-        v0 = createVector(current.x - current.w , current.y); 
-        v1 = createVector(next.x - (current.x - current.w), next.y - current.y);
+        v0 = createVector(current.x - (current.w / 2), current.y);
+        v1 = createVector(next.x - (current.x - (current.w / 2)), next.y - current.y);
         drawArrow(v0, v1, color(200, 100, 250, 70));
       }
 
-       else  { // horizontal e obliquo
-        v0 = createVector(current.x, current.y - current.w); // O duarte é gay e paneleiro!!!!!!
-        v1 = createVector(next.x - current.x, next.y - (current.y - current.w));
+      else { // horizontal e obliquo
+        v0 = createVector(current.x, current.y - current.w / 2); // O duarte é gay e paneleiro!!!!!!
+        v1 = createVector(next.x - current.x, next.y - (current.y - current.w / 2));
         drawArrow(v0, v1, color(200, 100, 250, 70));
       }
     }
@@ -242,6 +243,17 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
     }
   }
 }
+
+
+function produtoEscalar(v1, v2) {
+  return (v1.x * v2.x + v1.y * v2.y);
+}
+
+function is_antiColenear(v1, v2) {
+  return (produtoEscalar(v1, v2) === Math.sqrt((v1.x) ** 2 + (v1.y ** 2)) * Math.sqrt((v2.x) ** 2 + (v2.y ** 2)) * (-1));
+}
+
+
 
 
 function drawArc(base, Color) {
