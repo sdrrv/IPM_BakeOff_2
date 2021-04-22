@@ -207,7 +207,7 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
 
     //drawArc(createVector(current.x, current.y), color(250));
     if (last.x === current.x && last.y === current.y) {
-      drawArc(createVector(current.x, current.y), color(250));
+      drawArc(createVector(current.x, current.y), color(250), target.w);
     }
     else {
       let v0 = createVector(last.x, last.y);
@@ -216,11 +216,13 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
     }
     //-------------------------------------------------------------------
 
-    if (next.x === current.x && next.y === current.y) {
-      drawArc(createVector(current.x, current.y), color(200, 100, 250, 70));
+    if (current_trial !== 47 && next.x === current.x && next.y === current.y) {
+      drawArc(createVector(current.x, current.y), color(200, 100, 250, 70), target.w);
     }
 
-    else if (is_antiColenear(createVector(current.x - last.x, current.y - last.y), createVector(next.x - current.x, next.y - current.y))) {
+    else if (current_trial !== 0 && current_trial !== 47 &&
+      is_antiColenear(createVector(current.x - last.x, current.y - last.y),
+        createVector(next.x - current.x, next.y - current.y))) {
 
 
       if (current.x === next.x) { // vertical 
@@ -236,7 +238,7 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
       }
     }
 
-    else {
+    else if (current_trial !== 47) {
       v0 = createVector(current.x, current.y);
       v1 = createVector(next.x - current.x, next.y - current.y);
       drawArrow(v0, v1, color(200, 100, 250, 70));
@@ -258,7 +260,7 @@ function is_antiColenear(v1, v2) {
 
 
 
-function drawArc(base, Color) {
+function drawArc1(base, Color) {
   let x = base.x + 21;
   let y = base.y + 1;
   noFill();
@@ -267,6 +269,22 @@ function drawArc(base, Color) {
   arc(x, y, 60, 40, -PI / 2, PI / 2);
   triangle(x + 4, y + 17, x, y + 20, x + 4, y + 23);
 }
+
+
+function drawArc(base, Color, size) {
+  let addx = size / 1.7;
+  let addy = size / 20;
+  let x = base.x + addx;
+  let y = base.y - addy + addy / 40;
+  noFill();
+  stroke(color(Color));
+  strokeWeight(7);
+  arc(x, y, size * 1.3, size / 1.1, -PI / 2, PI / 2);
+  triangle(x, y + 17, x, y + 20, x, y + 23);
+}
+
+
+
 
 function drawArrow(base, vec, Color) {
   push();
