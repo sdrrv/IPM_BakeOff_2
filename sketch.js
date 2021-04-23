@@ -94,26 +94,26 @@ function printAndSavePerformance() {
   text("Average time for each target (+ penalty): " + target_w_penalty + "s", width / 2, 220);
 
   // Print Fitts IDS (one per target, -1 if failed selection)
-  let heightCount = 200;
-  let alinha = 350;
+  let heightCount = 480;
+  let alinha = 370;
   textAlign(CENTER);
-  text("Fitts index of Performance", width / 2, height - 420);
-  print(fitts_IDs);
+  text("Fitts index of Performance", width / 2, height - 480);
   for (i in fitts_IDs) {
-
-    if (i !== 0) {
+    if (i != 0) {
       if (fitts_IDs[i] !== -1)
-        text("Target " + i + ": " + fitts_IDs[i], width / 2 - alinha, height - heightCount);
+        text("Target " + i + ": " + Math.round((fitts_IDs[i] + Number.EPSILON) * 100) / 100, width / 2 - alinha, height - heightCount);
       else
         text("Target " + i + ": MISSED", width / 2 - alinha, height - heightCount);
     }
     else
-      text("Target " + i + ": ---", width / 2, height - heightCount);
-    if (i === 24) {
-      alinha = -alinha;
-      heightCount = 200;
+      text("Target " + i + ": --- ", width / 2 - alinha, height - heightCount);
+
+    heightCount -= 20;
+    if (i == 23) {
+      heightCount = 480;
+      alinha = -370;
     }
-    heightCount -= 40;
+
   }
   // Saves results (DO NOT CHANGE!)
   let attempt_data =
