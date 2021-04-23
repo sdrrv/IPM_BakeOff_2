@@ -107,266 +107,266 @@ function printAndSavePerformance() {
     else
       text("Target " + count + ": ---");
     // 
-
-    // Saves results (DO NOT CHANGE!)
-    let attempt_data =
-    {
-      project_from: GROUP_NUMBER,
-      assessed_by: student_ID,
-      test_completed_by: timestamp,
-      attempt: attempt,
-      hits: hits,
-      misses: misses,
-      accuracy: accuracy,
-      attempt_duration: test_time,
-      time_per_target: time_per_target,
-      target_w_penalty: target_w_penalty,
-      fitts_IDs: fitts_IDs
-    }
-
-    // Send data to DB (DO NOT CHANGE!)
-    if (BAKE_OFF_DAY) {
-      // Access the Firebase DB
-      if (attempt === 0) {
-        firebase.initializeApp(firebaseConfig);
-        database = firebase.database();
-      }
-
-      // Add user performance results
-      let db_ref = database.ref('G' + GROUP_NUMBER);
-      db_ref.push(attempt_data);
-    }
+  }
+  // Saves results (DO NOT CHANGE!)
+  let attempt_data =
+  {
+    project_from: GROUP_NUMBER,
+    assessed_by: student_ID,
+    test_completed_by: timestamp,
+    attempt: attempt,
+    hits: hits,
+    misses: misses,
+    accuracy: accuracy,
+    attempt_duration: test_time,
+    time_per_target: time_per_target,
+    target_w_penalty: target_w_penalty,
+    fitts_IDs: fitts_IDs
   }
 
-  // Mouse button was pressed - lets test to see if hit was in the correct target
-  function mousePressed() {
-    // Only look for mouse releases during the actual test
-    // (i.e., during target selections)
-    if (draw_targets) {
-      // Get the location and size of the target the user should be trying to select
-      let target = getTargetBounds(trials[current_trial]);
-
-      // Check to see if the mouse cursor is inside the target bounds,
-      // increasing either the 'hits' or 'misses' counters
-      if (dist(target.x, target.y, mouseX, mouseY) < target.w / 2) {
-        hits++;
-        fitts_IDs.push(calculateFittsId(target, lastMouseClick, target.w));;
-        audio.play();
-      }
-      else {
-        misses++;
-        fitts_IDs.push(-1);
-      }
-      lastMouseClick.x = mouseX;
-      lastMouseClick.y = mouseY;
-      current_trial++;                 // Move on to the next trial/target
-
-      // Check if the user has completed all 48 trials
-      if (current_trial === trials.length) {
-        testEndTime = millis();
-        draw_targets = false;          // Stop showing targets and the user performance results
-        printAndSavePerformance();     // Print the user's results on-screen and send these to the DB
-        attempt++;
-
-        // If there's an attempt to go create a button to start this
-        if (attempt < 2) {
-          continue_button = createButton('START 2ND ATTEMPT');
-          continue_button.mouseReleased(continueTest);
-          continue_button.position(width / 2 - continue_button.size().width / 2, height / 2 - continue_button.size().height / 2);
-        }
-      }
+  // Send data to DB (DO NOT CHANGE!)
+  if (BAKE_OFF_DAY) {
+    // Access the Firebase DB
+    if (attempt === 0) {
+      firebase.initializeApp(firebaseConfig);
+      database = firebase.database();
     }
+
+    // Add user performance results
+    let db_ref = database.ref('G' + GROUP_NUMBER);
+    db_ref.push(attempt_data);
   }
+}
 
-  // Draw target on-screen
-  function drawTarget(i) { // IMPORTANT_-------------------------------------------------------!!!
-    // Get the location and size for target (i)
-    let target = getTargetBounds(i);
+// Mouse button was pressed - lets test to see if hit was in the correct target
+function mousePressed() {
+  // Only look for mouse releases during the actual test
+  // (i.e., during target selections)
+  if (draw_targets) {
+    // Get the location and size of the target the user should be trying to select
+    let target = getTargetBounds(trials[current_trial]);
 
-    // Check whether this target is the target the user should be trying to select
-    if (trials[current_trial] === i) {
-      // Highlights the target the user should be trying to select
-      // with a white border
-      if (ciclo === 6) {
-        ciclo = 0;
-        wsize++;
-      }
-      ciclo++;
-      stroke(color(127, 255, 0)); // Stroke Color !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      strokeWeight(Math.abs(Math.sin(wsize) * 5)); // Stroke Wieght !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      // Remember you are allowed to access targets (i-1) and (i+1)
-      // if this is the target the user should be trying to select
-      //
-      fill(color(127, 255, 0));
-
+    // Check to see if the mouse cursor is inside the target bounds,
+    // increasing either the 'hits' or 'misses' counters
+    if (dist(target.x, target.y, mouseX, mouseY) < target.w / 2) {
+      hits++;
+      fitts_IDs.push(calculateFittsId(target, lastMouseClick, target.w));;
+      audio.play();
     }
-    else if (trials[current_trial + 1] === i) { // NEXT BALLLLLLL!!!!!!!!!!!!!!!!!!!!
-      stroke(color(0, 0, 220));
-      strokeWeight(0);
-      fill(color(250, 100, 250, 90));
-    }
-
-
-    // Does not draw a border if this is not the target the user
-    // should be trying to select
     else {
-      noStroke();
-      fill(color(120, 120, 120, 80));
+      misses++;
+      fitts_IDs.push(-1);
+    }
+    lastMouseClick.x = mouseX;
+    lastMouseClick.y = mouseY;
+    current_trial++;                 // Move on to the next trial/target
+
+    // Check if the user has completed all 48 trials
+    if (current_trial === trials.length) {
+      testEndTime = millis();
+      draw_targets = false;          // Stop showing targets and the user performance results
+      printAndSavePerformance();     // Print the user's results on-screen and send these to the DB
+      attempt++;
+
+      // If there's an attempt to go create a button to start this
+      if (attempt < 2) {
+        continue_button = createButton('START 2ND ATTEMPT');
+        continue_button.mouseReleased(continueTest);
+        continue_button.position(width / 2 - continue_button.size().width / 2, height / 2 - continue_button.size().height / 2);
+      }
+    }
+  }
+}
+
+// Draw target on-screen
+function drawTarget(i) { // IMPORTANT_-------------------------------------------------------!!!
+  // Get the location and size for target (i)
+  let target = getTargetBounds(i);
+
+  // Check whether this target is the target the user should be trying to select
+  if (trials[current_trial] === i) {
+    // Highlights the target the user should be trying to select
+    // with a white border
+    if (ciclo === 6) {
+      ciclo = 0;
+      wsize++;
+    }
+    ciclo++;
+    stroke(color(127, 255, 0)); // Stroke Color !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    strokeWeight(Math.abs(Math.sin(wsize) * 5)); // Stroke Wieght !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // Remember you are allowed to access targets (i-1) and (i+1)
+    // if this is the target the user should be trying to select
+    //
+    fill(color(127, 255, 0));
+
+  }
+  else if (trials[current_trial + 1] === i) { // NEXT BALLLLLLL!!!!!!!!!!!!!!!!!!!!
+    stroke(color(0, 0, 220));
+    strokeWeight(0);
+    fill(color(250, 100, 250, 90));
+  }
+
+
+  // Does not draw a border if this is not the target the user
+  // should be trying to select
+  else {
+    noStroke();
+    fill(color(120, 120, 120, 80));
+  }
+
+  circle(target.x, target.y, target.w);
+  if (i === 15) {
+    let last = getTargetBounds(trials[current_trial - 1]);
+    let current = getTargetBounds(trials[current_trial]);
+    let next = getTargetBounds(trials[current_trial + 1]);
+    //---------------------Last to Current------------------------------
+
+    //drawArc(createVector(current.x, current.y), color(250));
+    if (last.x === current.x && last.y === current.y) {
+      drawArc(createVector(current.x, current.y), color(250), target.w);
+    }
+    else {
+      let v0 = createVector(last.x, last.y);
+      let v1 = createVector(current.x - last.x, current.y - last.y);
+      drawArrow(v0, v1, color(250));
+    }
+    //-------------------------------------------------------------------
+
+    if (current_trial !== 47 && next.x === current.x && next.y === current.y) {
+      drawArc(createVector(current.x, current.y), color(200, 100, 250, 70), target.w);
     }
 
-    circle(target.x, target.y, target.w);
-    if (i === 15) {
-      let last = getTargetBounds(trials[current_trial - 1]);
-      let current = getTargetBounds(trials[current_trial]);
-      let next = getTargetBounds(trials[current_trial + 1]);
-      //---------------------Last to Current------------------------------
+    else if (current_trial !== 0 && current_trial !== 47 &&
+      is_antiColenear(createVector(current.x - last.x, current.y - last.y),
+        createVector(next.x - current.x, next.y - current.y))) {
 
-      //drawArc(createVector(current.x, current.y), color(250));
-      if (last.x === current.x && last.y === current.y) {
-        drawArc(createVector(current.x, current.y), color(250), target.w);
-      }
-      else {
-        let v0 = createVector(last.x, last.y);
-        let v1 = createVector(current.x - last.x, current.y - last.y);
-        drawArrow(v0, v1, color(250));
-      }
-      //-------------------------------------------------------------------
 
-      if (current_trial !== 47 && next.x === current.x && next.y === current.y) {
-        drawArc(createVector(current.x, current.y), color(200, 100, 250, 70), target.w);
+      if (current.x === next.x) { // vertical 
+        v0 = createVector(current.x - (current.w / 2), current.y);
+        v1 = createVector(next.x - (current.x - (current.w / 2)), next.y - current.y);
+        drawArrow(v0, v1, color(200, 100, 250, 70));
       }
 
-      else if (current_trial !== 0 && current_trial !== 47 &&
-        is_antiColenear(createVector(current.x - last.x, current.y - last.y),
-          createVector(next.x - current.x, next.y - current.y))) {
-
-
-        if (current.x === next.x) { // vertical 
-          v0 = createVector(current.x - (current.w / 2), current.y);
-          v1 = createVector(next.x - (current.x - (current.w / 2)), next.y - current.y);
-          drawArrow(v0, v1, color(200, 100, 250, 70));
-        }
-
-        else { // horizontal e obliquo
-          v0 = createVector(current.x, current.y - current.w / 2);
-          v1 = createVector(next.x - current.x, next.y - (current.y - current.w / 2));
-          drawArrow(v0, v1, color(200, 100, 250, 70));
-        }
-      }
-
-      else if (current_trial !== 47) {
-        v0 = createVector(current.x, current.y);
-        v1 = createVector(next.x - current.x, next.y - current.y);
+      else { // horizontal e obliquo
+        v0 = createVector(current.x, current.y - current.w / 2);
+        v1 = createVector(next.x - current.x, next.y - (current.y - current.w / 2));
         drawArrow(v0, v1, color(200, 100, 250, 70));
       }
     }
+
+    else if (current_trial !== 47) {
+      v0 = createVector(current.x, current.y);
+      v1 = createVector(next.x - current.x, next.y - current.y);
+      drawArrow(v0, v1, color(200, 100, 250, 70));
+    }
   }
+}
 
 
-  function calculateFittsId(p1, p2, size) { // 138
-    let distance = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
-    return Math.log2(distance / size + 1);
-  }
+function calculateFittsId(p1, p2, size) { // 138
+  let distance = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+  return Math.log2(distance / size + 1);
+}
 
-  function produtoEscalar(v1, v2) {
-    return (v1.x * v2.x + v1.y * v2.y);
-  }
+function produtoEscalar(v1, v2) {
+  return (v1.x * v2.x + v1.y * v2.y);
+}
 
-  function is_antiColenear(v1, v2) {
-    if (v1.x === v2.x && v1.y === v2.y)
-      return false;
-    return (produtoEscalar(v1, v2) === Math.sqrt((v1.x) ** 2 + (v1.y ** 2)) * Math.sqrt((v2.x) ** 2 + (v2.y ** 2)) * (-1));
-  }
-
-
-
-
-  function drawArc1(base, Color) {
-    let x = base.x + 21;
-    let y = base.y + 1;
-    noFill();
-    stroke(color(Color));
-    strokeWeight(7);
-    arc(x, y, 60, 40, -PI / 2, PI / 2);
-    triangle(x + 4, y + 17, x, y + 20, x + 4, y + 23);
-  }
-
-
-  function drawArc(base, Color, size) {
-    let addx = size / 1.7;
-    let addy = size / 20;
-    let x = base.x + addx;
-    let y = base.y - addy + addy / 40;
-    noFill();
-    stroke(color(Color));
-    strokeWeight(7);
-    arc(x, y, size * 1.3, size / 1.1, -PI / 2, PI / 2);
-    triangle(x, y + 17, x, y + 20, x, y + 23);
-  }
+function is_antiColenear(v1, v2) {
+  if (v1.x === v2.x && v1.y === v2.y)
+    return false;
+  return (produtoEscalar(v1, v2) === Math.sqrt((v1.x) ** 2 + (v1.y ** 2)) * Math.sqrt((v2.x) ** 2 + (v2.y ** 2)) * (-1));
+}
 
 
 
 
-  function drawArrow(base, vec, Color) {
-    push();
-    stroke(Color);
-    strokeWeight(7);
-    fill(Color);
-    translate(base.x, base.y);
-    line(0, 0, vec.x, vec.y);
-    rotate(vec.heading());
-    let arrowSize = 8;
-    translate(vec.mag() - arrowSize, 0);
-    triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
-    pop();
-  }
+function drawArc1(base, Color) {
+  let x = base.x + 21;
+  let y = base.y + 1;
+  noFill();
+  stroke(color(Color));
+  strokeWeight(7);
+  arc(x, y, 60, 40, -PI / 2, PI / 2);
+  triangle(x + 4, y + 17, x, y + 20, x + 4, y + 23);
+}
 
-  // Returns the location and size of a given target
-  function getTargetBounds(i) {
-    var x = parseInt(LEFT_PADDING) + parseInt((i % 4) * (TARGET_SIZE + TARGET_PADDING) + MARGIN);
-    var y = parseInt(TOP_PADDING) + parseInt(Math.floor(i / 4) * (TARGET_SIZE + TARGET_PADDING) + MARGIN);
 
-    return new Target(x, y, TARGET_SIZE);
-  }
+function drawArc(base, Color, size) {
+  let addx = size / 1.7;
+  let addy = size / 20;
+  let x = base.x + addx;
+  let y = base.y - addy + addy / 40;
+  noFill();
+  stroke(color(Color));
+  strokeWeight(7);
+  arc(x, y, size * 1.3, size / 1.1, -PI / 2, PI / 2);
+  triangle(x, y + 17, x, y + 20, x, y + 23);
+}
 
-  // Evoked after the user starts its second (and last) attempt
-  function continueTest() {
-    // Re-randomize the trial order
-    shuffle(trials, true);
-    current_trial = 0;
-    print("trial order: " + trials);
 
-    // Resets performance variables
-    hits = 0;
-    misses = 0;
-    fitts_IDs = [];
 
-    continue_button.remove();
 
-    // Shows the targets again
-    draw_targets = true;
-    testStartTime = millis();
-  }
+function drawArrow(base, vec, Color) {
+  push();
+  stroke(Color);
+  strokeWeight(7);
+  fill(Color);
+  translate(base.x, base.y);
+  line(0, 0, vec.x, vec.y);
+  rotate(vec.heading());
+  let arrowSize = 8;
+  translate(vec.mag() - arrowSize, 0);
+  triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
+  pop();
+}
 
-  // Is invoked when the canvas is resized (e.g., when we go fullscreen)
-  function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
+// Returns the location and size of a given target
+function getTargetBounds(i) {
+  var x = parseInt(LEFT_PADDING) + parseInt((i % 4) * (TARGET_SIZE + TARGET_PADDING) + MARGIN);
+  var y = parseInt(TOP_PADDING) + parseInt(Math.floor(i / 4) * (TARGET_SIZE + TARGET_PADDING) + MARGIN);
 
-    let display = new Display({diagonal: display_size}, window.screen);
+  return new Target(x, y, TARGET_SIZE);
+}
 
-    // DO NOT CHANGE THESE!
-    PPI = display.ppi;                        // calculates pixels per inch
-    PPCM = PPI / 2.54;                         // calculates pixels per cm
-    TARGET_SIZE = 1.5 * PPCM;                         // sets the target size in cm, i.e, 1.5cm
-    TARGET_PADDING = 1.5 * PPCM;                         // sets the padding around the targets in cm
-    MARGIN = 1.5 * PPCM;                         // sets the margin around the targets in cm
+// Evoked after the user starts its second (and last) attempt
+function continueTest() {
+  // Re-randomize the trial order
+  shuffle(trials, true);
+  current_trial = 0;
+  print("trial order: " + trials);
 
-    // Sets the margin of the grid of targets to the left of the canvas (DO NOT CHANGE!)
-    LEFT_PADDING = width / 2 - TARGET_SIZE - 1.5 * TARGET_PADDING - 1.5 * MARGIN;
+  // Resets performance variables
+  hits = 0;
+  misses = 0;
+  fitts_IDs = [];
 
-    // Sets the margin of the grid of targets to the top of the canvas (DO NOT CHANGE!)
-    TOP_PADDING = height / 2 - TARGET_SIZE - 1.5 * TARGET_PADDING - 1.5 * MARGIN;
+  continue_button.remove();
 
-    // Starts drawing targets immediately after we go fullscreen
-    draw_targets = true;
-  }
+  // Shows the targets again
+  draw_targets = true;
+  testStartTime = millis();
+}
+
+// Is invoked when the canvas is resized (e.g., when we go fullscreen)
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+
+  let display = new Display({diagonal: display_size}, window.screen);
+
+  // DO NOT CHANGE THESE!
+  PPI = display.ppi;                        // calculates pixels per inch
+  PPCM = PPI / 2.54;                         // calculates pixels per cm
+  TARGET_SIZE = 1.5 * PPCM;                         // sets the target size in cm, i.e, 1.5cm
+  TARGET_PADDING = 1.5 * PPCM;                         // sets the padding around the targets in cm
+  MARGIN = 1.5 * PPCM;                         // sets the margin around the targets in cm
+
+  // Sets the margin of the grid of targets to the left of the canvas (DO NOT CHANGE!)
+  LEFT_PADDING = width / 2 - TARGET_SIZE - 1.5 * TARGET_PADDING - 1.5 * MARGIN;
+
+  // Sets the margin of the grid of targets to the top of the canvas (DO NOT CHANGE!)
+  TOP_PADDING = height / 2 - TARGET_SIZE - 1.5 * TARGET_PADDING - 1.5 * MARGIN;
+
+  // Starts drawing targets immediately after we go fullscreen
+  draw_targets = true;
+}
