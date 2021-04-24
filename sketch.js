@@ -98,6 +98,7 @@ function printAndSavePerformance() {
   let alinha = 370;
   textAlign(CENTER);
   text("Fitts index of Performance", width / 2, height - 480);
+  textAlign(LEFT);
   for (i in fitts_IDs) {
     if (i != 0) {
       if (fitts_IDs[i] !== -1)
@@ -150,6 +151,7 @@ function mousePressed() {
   // Only look for mouse releases during the actual test
   // (i.e., during target selections)
   if (draw_targets) {
+
     // Get the location and size of the target the user should be trying to select
     let target = getTargetBounds(trials[current_trial]);
 
@@ -182,6 +184,17 @@ function mousePressed() {
         continue_button.position(width / 2 - continue_button.size().width / 2, height / 2 - continue_button.size().height / 2);
       }
     }
+  }
+}
+
+function keyPressed() {
+  if (keyCode == ENTER) {
+    let oi = getTargetBounds(trials[current_trial - 1]);
+    let oioi = getTargetBounds(trials[current_trial]);
+    let hello = getTargetBounds(trials[current_trial + 1]);
+    print("anterior: x: " + oi.x + "y: " + oi.y);
+    print("current: x: " + oioi.x + "y: " + oioi.y);
+    print("proximo: x: " + hello.x + "y: " + hello.y);
   }
 }
 
@@ -247,18 +260,26 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
       is_antiColenear(createVector(current.x - last.x, current.y - last.y),
         createVector(next.x - current.x, next.y - current.y))) {
 
-
+      print("anticolinear");
       if (current.x === next.x) { // vertical 
         v0 = createVector(current.x - (current.w / 2), current.y);
         v1 = createVector(next.x - (current.x - (current.w / 2)), next.y - current.y);
         drawArrow(v0, v1, color(200, 100, 250, 70));
       }
 
-      else { // horizontal e obliquo
+      else if (current.y === current.y) { // horizontal e obliquo
         v0 = createVector(current.x, current.y - current.w / 2);
         v1 = createVector(next.x - current.x, next.y - (current.y - current.w / 2));
         drawArrow(v0, v1, color(200, 100, 250, 70));
       }
+      else {
+        let move = (Math.sqrt(2) * current.w) / 2;
+        v0 = createVector(current.x - move, current.y - move);
+        v1 = createVector(next.x - v0.x, next.y - vo.y);
+        drawArrow(v0, v1, color(200, 100, 250, 70));
+
+      }
+
     }
 
     else if (current_trial !== 47) {
@@ -282,7 +303,8 @@ function produtoEscalar(v1, v2) {
 function is_antiColenear(v1, v2) {
   if (v1.x === v2.x && v1.y === v2.y)
     return false;
-  return (produtoEscalar(v1, v2) === Math.sqrt((v1.x) ** 2 + (v1.y ** 2)) * Math.sqrt((v2.x) ** 2 + (v2.y ** 2)) * (-1));
+  return Math.abs(produtoEscalar(v1, v2) -
+    Math.sqrt((v1.x) ** 2 + (v1.y ** 2)) * Math.sqrt((v2.x) ** 2 + (v2.y ** 2)) * (-1)) < 1;
 }
 
 
