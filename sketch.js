@@ -248,7 +248,7 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
     else {
       let v0 = createVector(last.x, last.y);
       let v1 = createVector(current.x - last.x, current.y - last.y);
-      drawArrow(v0, v1, color(250));
+      drawArrow(v0, v1, color(250), target.w);
     }
     //-------------------------------------------------------------------
 
@@ -264,19 +264,19 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
       if (current.x === next.x) { // vertical 
         v0 = createVector(current.x - (current.w / 2), current.y);
         v1 = createVector(next.x - (current.x - (current.w / 2)), next.y - current.y);
-        drawArrow(v0, v1, color(200, 100, 250, 70));
+        drawArrow(v0, v1, color(200, 100, 250, 70), target.w);
       }
 
       else if (current.y === current.y) { // horizontal e obliquo
         v0 = createVector(current.x, current.y - current.w / 2);
         v1 = createVector(next.x - current.x, next.y - (current.y - current.w / 2));
-        drawArrow(v0, v1, color(200, 100, 250, 70));
+        drawArrow(v0, v1, color(200, 100, 250, 70), target.w);
       }
       else {
         let move = (Math.sqrt(2) * current.w) / 2;
         v0 = createVector(current.x - move, current.y - move);
         v1 = createVector(next.x - v0.x, next.y - vo.y);
-        drawArrow(v0, v1, color(200, 100, 250, 70));
+        drawArrow(v0, v1, color(200, 100, 250, 70), target.w);
 
       }
 
@@ -285,7 +285,7 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
     else if (current_trial !== 47) {
       v0 = createVector(current.x, current.y);
       v1 = createVector(next.x - current.x, next.y - current.y);
-      drawArrow(v0, v1, color(200, 100, 250, 70));
+      drawArrow(v0, v1, color(200, 100, 250, 70), target.w);
     }
   }
 }
@@ -328,18 +328,20 @@ function drawArc(base, Color, size) {
   let y = base.y - addy + addy / 40;
   noFill();
   stroke(color(Color));
-  strokeWeight(7);
+  strokeWeight(size / 10);
   arc(x, y, size * 1.3, size / 1.1, -PI / 2, PI / 2);
-  triangle(x, y + 17, x, y + 20, x, y + 23);
+  triangle(x - (addx / 30), y + size / 2.15 - addy, x - (addx / 6), y + size / 2.15, x - (addx / 30),
+    y + size / 2.15 + addy);
+
 }
 
 
 
 
-function drawArrow(base, vec, Color) {
+function drawArrow(base, vec, Color, size) {
   push();
   stroke(Color);
-  strokeWeight(7);
+  strokeWeight(size / 10);
   fill(Color);
   translate(base.x, base.y);
   line(0, 0, vec.x, vec.y);
