@@ -213,11 +213,11 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
     }
     ciclo++;
     stroke(color(127, 255, 0)); // Stroke Color !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    strokeWeight(Math.abs(Math.sin(wsize) * 5)); // Stroke Wieght !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    strokeWeight(Math.abs(Math.sin(wsize) * (target.w / 10))); // Stroke Wieght !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // Remember you are allowed to access targets (i-1) and (i+1)
     // if this is the target the user should be trying to select
     //
-    fill(color(127, 255, 0));
+    fill(color(0, 128, 0));
 
   }
   else if (trials[current_trial + 1] === i) { // NEXT BALLLLLLL!!!!!!!!!!!!!!!!!!!!
@@ -245,10 +245,13 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
     if (last.x === current.x && last.y === current.y) {
       drawArc(createVector(current.x, current.y), color(250), target.w);
     }
-    else {
+    else if (current_trial !== 0) {
       let v0 = createVector(last.x, last.y);
       let v1 = createVector(current.x - last.x, current.y - last.y);
-      drawArrow(v0, v1, color(250), target.w);
+      let ola = getVector(v0, createVector(current.x, current.y), target.w / 1.5);
+      print("x1: " + v1.x + " y1: " + v1.y);
+      print("x2: " + ola.x + " y2: " + ola.y);
+      drawArrow(v0, ola, color(250), target.w);
     }
     //-------------------------------------------------------------------
 
@@ -264,19 +267,22 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
       if (current.x === next.x) { // vertical 
         v0 = createVector(current.x - (current.w / 2), current.y);
         v1 = createVector(next.x - (current.x - (current.w / 2)), next.y - current.y);
-        drawArrow(v0, v1, color(200, 100, 250, 70), target.w);
+        let ola = getVector(v0, createVector(next.x, next.y), target.w / 1.5);
+        drawArrow(v0, ola, color(200, 100, 250, 70), target.w);
       }
 
       else if (current.y === current.y) { // horizontal e obliquo
         v0 = createVector(current.x, current.y - current.w / 2);
         v1 = createVector(next.x - current.x, next.y - (current.y - current.w / 2));
-        drawArrow(v0, v1, color(200, 100, 250, 70), target.w);
+        let ola = getVector(v0, createVector(next.x, next.y), target.w / 1.5);
+        drawArrow(v0, ola, color(200, 100, 250, 70), target.w);
       }
       else {
         let move = (Math.sqrt(2) * current.w) / 2;
         v0 = createVector(current.x - move, current.y - move);
         v1 = createVector(next.x - v0.x, next.y - vo.y);
-        drawArrow(v0, v1, color(200, 100, 250, 70), target.w);
+        let ola = getVector(v0, createVector(next.x, next.y), target.w / 1.5);
+        drawArrow(v0, ola, color(200, 100, 250, 70), target.w);
 
       }
 
@@ -285,11 +291,21 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
     else if (current_trial !== 47) {
       v0 = createVector(current.x, current.y);
       v1 = createVector(next.x - current.x, next.y - current.y);
-      drawArrow(v0, v1, color(200, 100, 250, 70), target.w);
+      let ola = getVector(v0, createVector(next.x, next.y), target.w / 1.5);
+      drawArrow(v0, ola, color(200, 100, 250, 70), target.w);
     }
   }
 }
 
+function getVector(pi, pf, targetSize) {
+  print("helloo");
+  let vi = createVector(pf.x - pi.x, pf.y - pi.y);
+  let distance = Math.sqrt(Math.pow(vi.x, 2) + Math.pow(vi.y, 2));
+  let normalisedVector = createVector(vi.x / distance, vi.y / distance);
+  distance = distance - targetSize;
+  let hey = createVector(normalisedVector.x * distance, normalisedVector.y * distance);
+  return hey;
+}
 
 function calculateFittsId(p1, p2, size) { // 138
   let distance = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
