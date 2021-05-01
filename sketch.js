@@ -214,10 +214,15 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
     ciclo++;
     stroke(color(127, 255, 0)); // Stroke Color !!!!!!!!!!!!!!!!!!!!!!!!!!!!
     strokeWeight(Math.abs(Math.sin(wsize) * (target.w / 10))); // Stroke Wieght !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    if (dist(target.x, target.y, mouseX, mouseY) <= target.w) { // if the cursor is over the target
+      fill(color(127, 255, 0));
+    }
+    else
+      fill(color(0, 128, 0));
     // Remember you are allowed to access targets (i-1) and (i+1)
     // if this is the target the user should be trying to select
     //
-    fill(color(0, 128, 0));
 
   }
   else if (trials[current_trial + 1] === i) { // NEXT BALLLLLLL!!!!!!!!!!!!!!!!!!!!
@@ -249,8 +254,8 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
       let v0 = createVector(last.x, last.y);
       let v1 = createVector(current.x - last.x, current.y - last.y);
       let ola = getVector(v0, createVector(current.x, current.y), target.w / 1.5);
-      print("x1: " + v1.x + " y1: " + v1.y);
-      print("x2: " + ola.x + " y2: " + ola.y);
+      // print("x1: " + v1.x + " y1: " + v1.y);
+      //print("x2: " + ola.x + " y2: " + ola.y);
       drawArrow(v0, ola, color(250), target.w);
     }
     //-------------------------------------------------------------------
@@ -298,7 +303,6 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
 }
 
 function getVector(pi, pf, targetSize) {
-  print("helloo");
   let vi = createVector(pf.x - pi.x, pf.y - pi.y);
   let distance = Math.sqrt(Math.pow(vi.x, 2) + Math.pow(vi.y, 2));
   let normalisedVector = createVector(vi.x / distance, vi.y / distance);
@@ -322,7 +326,6 @@ function is_antiColenear(v1, v2) {
   return Math.abs(produtoEscalar(v1, v2) -
     Math.sqrt((v1.x) ** 2 + (v1.y ** 2)) * Math.sqrt((v2.x) ** 2 + (v2.y ** 2)) * (-1)) < 1;
 }
-
 
 
 
