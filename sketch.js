@@ -209,7 +209,7 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
     // with a white border
     if (ciclo === 6) {
       ciclo = 0;
-      wsize++;
+      wsize = 1;
     }
     ciclo++;
     //stroke(color(127, 255, 0)); // Stroke Color !!!!!!!!!!!!!!!!!!!!!!!!!!!!
