@@ -212,14 +212,16 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
       wsize++;
     }
     ciclo++;
-    stroke(color(127, 255, 0)); // Stroke Color !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //stroke(color(127, 255, 0)); // Stroke Color !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    stroke(color(160, 255, 255)); // Stroke Color !!!!!!!!!!!!!!!!!!!!!!!!!!!!
     strokeWeight(Math.abs(Math.sin(wsize) * (target.w / 10))); // Stroke Wieght !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    if (dist(target.x, target.y, mouseX, mouseY) <= target.w) { // if the cursor is over the target
-      fill(color(127, 255, 0));
+    if (dist(target.x, target.y, mouseX, mouseY) <= target.w / 2) { // if the cursor is over the target
+      fill(color(255));
     }
     else
-      fill(color(0, 128, 0));
+      fill(color(0, 70, 255));
+    //fill(color(0, 128, 0));
     // Remember you are allowed to access targets (i-1) and (i+1)
     // if this is the target the user should be trying to select
     //
