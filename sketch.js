@@ -5,7 +5,8 @@
 
 // p5.js reference: https://p5js.org/reference/
 
-var audio = new Audio('soft_notification-[AudioTrimmer.com].mp3');
+var right_audio = new Audio('soft_notification-[AudioTrimmer.com].mp3');
+var wrong_audio = new Audio("wrong.wav");
 let ciclo = 0;
 let wsize = 0;
 let lastMouseClick = {x: 0, y: 0};
@@ -160,9 +161,10 @@ function mousePressed() {
     if (dist(target.x, target.y, mouseX, mouseY) < target.w / 2) {
       hits++;
       fitts_IDs.push(calculateFittsId(target, lastMouseClick, target.w));;
-      audio.play();
+      right_audio.play();
     }
     else {
+      wrong_audio.play();
       misses++;
       fitts_IDs.push(-1);
     }
@@ -209,13 +211,13 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
     // with a white border
     if (ciclo === 6) {
       ciclo = 0;
-      wsize = 1;
+      wsize++;
     }
     ciclo++;
     //stroke(color(127, 255, 0)); // Stroke Color !!!!!!!!!!!!!!!!!!!!!!!!!!!!
     stroke(color(160, 255, 255)); // Stroke Color !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    strokeWeight(Math.abs(Math.sin(wsize) * (target.w / 10))); // Stroke Wieght !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+    //strokeWeight(Math.abs(Math.sin(wsize) * (target.w / 10))); // Stroke Wieght !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    strokeWeight(target.w / 11);
     if (dist(target.x, target.y, mouseX, mouseY) <= target.w / 2) { // if the cursor is over the target
       fill(color(255));
     }
@@ -242,6 +244,11 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
   }
 
   circle(target.x, target.y, target.w);
+  if (trials[current_trial] === i) {
+    fill(color(255, 0, 0));
+    circle(target.x, target.y, Math.sin(wsize) * (target.w / 10));
+  }
+
   if (i === 15) {
     let last = getTargetBounds(trials[current_trial - 1]);
     let current = getTargetBounds(trials[current_trial]);
