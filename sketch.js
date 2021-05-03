@@ -57,6 +57,8 @@ function setup() {
 function draw() {
 
   if (draw_targets) {
+    cursor(CROSS);
+
     // The user is interacting with the 4x4 target grid
     background(color(0, 0, 0));        // sets background to black
 
