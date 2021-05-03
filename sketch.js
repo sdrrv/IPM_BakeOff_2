@@ -4,7 +4,7 @@
 // Bake-off: durante os laboratórios da semana de 3 de Maio
 
 // p5.js reference: https://p5js.org/reference/
-
+let img;
 var audio = new Audio('soft_notification-[AudioTrimmer.com].mp3');
 let ciclo = 0;
 let wsize = 0;
@@ -41,7 +41,6 @@ class Target {
     this.w = w;
   }
 }
-
 // Runs once at the start
 function setup() {
   createCanvas(700, 500);    // window size in px before we go into fullScreen()
@@ -53,11 +52,12 @@ function setup() {
   drawUserIDScreen();        // draws the user input screen (student number and display size)
 }
 
+
 // Runs every frame and redraws the screen
 function draw() {
-
+  noCursor();
+  image(img, 0, 0);
   if (draw_targets) {
-    cursor("ball.png");
     // The user is interacting with the 4x4 target grid
     background(color(0, 0, 0));        // sets background to black
 
