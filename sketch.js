@@ -57,8 +57,7 @@ function setup() {
 function draw() {
 
   if (draw_targets) {
-    cursor(CROSS);
-
+    cursor("ball.png");
     // The user is interacting with the 4x4 target grid
     background(color(0, 0, 0));        // sets background to black
 
