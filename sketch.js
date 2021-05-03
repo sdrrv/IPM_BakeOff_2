@@ -214,10 +214,8 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
       wsize++;
     }
     ciclo++;
-    //stroke(color(127, 255, 0)); // Stroke Color !!!!!!!!!!!!!!!!!!!!!!!!!!!!
     stroke(color(160, 255, 255)); // Stroke Color !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //strokeWeight(Math.abs(Math.sin(wsize) * (target.w / 10))); // Stroke Wieght !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    strokeWeight(target.w / 11);
+    strokeWeight(target.w / 15);
     if (dist(target.x, target.y, mouseX, mouseY) <= target.w / 2) { // if the cursor is over the target
       fill(color(255));
     }
@@ -246,7 +244,8 @@ function drawTarget(i) { // IMPORTANT_------------------------------------------
   circle(target.x, target.y, target.w);
   if (trials[current_trial] === i) {
     fill(color(255, 0, 0));
-    circle(target.x, target.y, Math.sin(wsize) * (target.w / 10));
+    noStroke();
+    circle(target.x, target.y, Math.sin(wsize) * (target.w / 5));
   }
 
   if (i === 15) {
